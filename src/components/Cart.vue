@@ -1,5 +1,10 @@
 <template>
   <BasicComponent :loading="isLoading">
+    <div class="row mb-1">
+      <div class="col-12">
+        <b-breadcrumb :items="[{text: 'Shopping cart', href:'/cart'}]"></b-breadcrumb>
+      </div>
+    </div>
     <div class="row mb-4">
       <div class="col-12">
         <b-jumbotron v-if="order">

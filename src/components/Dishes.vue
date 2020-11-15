@@ -1,5 +1,10 @@
 <template>
   <BasicComponent :loading="isLoading">
+    <div class="row mb-1">
+      <div class="col-12">
+        <b-breadcrumb :items="[{text: 'Restaurants', href:'/'}, {text: 'Dishes', href:'/dishes'}]"></b-breadcrumb>
+      </div>
+    </div>
     <div class="row mb-4">
       <div class="col-12">
         <b-jumbotron>

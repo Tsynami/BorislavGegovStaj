@@ -1,28 +1,47 @@
 <template>
   <BasicComponent :loading="isLoading">
     <div class="container-fluid">
-      <div class="row justify-content-center  mt-5">
-        <b-card title="Login">
+      <div class="row justify-content-center" style="margin-top: 10%">
+        <b-card
+            header="Sign in"
+            style="width: 30%"
+            class="shadow"
+            bg-variant="light">
           <b-form @submit.prevent="login">
             <b-form-group>
               <b-input-group>
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <b-icon-person></b-icon-person>
+                  </div>
+                </div>
                 <b-form-input v-model="email" placeholder="Email"></b-form-input>
               </b-input-group>
             </b-form-group>
             <b-form-group>
               <b-input-group>
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <b-icon-key></b-icon-key>
+                  </div>
+                </div>
                 <b-form-input v-model="password" type="password" placeholder="Password"></b-form-input>
               </b-input-group>
             </b-form-group>
             <b-form-group>
               <b-input-group>
-                <b-button type="submit" variant="danger">
-                  <b-icon-key></b-icon-key>
+                <b-button type="submit" variant="danger" class="w-100">
+                  <b-icon-box-arrow-in-right></b-icon-box-arrow-in-right>
                   Login
                 </b-button>
               </b-input-group>
             </b-form-group>
           </b-form>
+          <template #footer>
+            <div class="footer-copyright text-center">© 2020 Copyright:
+              <a href="https://localhost:8080">Restaurant</a>
+            </div>
+          </template>
         </b-card>
       </div>
     </div>
