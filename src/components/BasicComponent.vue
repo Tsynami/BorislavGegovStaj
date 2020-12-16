@@ -1,5 +1,5 @@
 <template>
-  <b-overlay :show="loading" rounded="sm">
+  <b-overlay :show="loading">
     <div class="container-fluid">
       <slot></slot>
     </div>
@@ -13,16 +13,15 @@ export default {
   props: {
     loading: Boolean
   },
-  methods: {
-    showError(error) {
-      this.$bvModal.msgBoxOk(error, {
-        title: 'Error',
-        size: 'sm',
-        buttonSize: 'sm',
-        okVariant: 'danger',
-        centered: true
-      })
-    }
+  components: {},
+  data: function () {
+    return {};
+  },
+  methods: {},
+  mounted() {
   }
 }
 </script>
+
+<style>
+</style>
