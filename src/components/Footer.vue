@@ -1,8 +1,8 @@
 <template>
   <footer class="shadow fixed-bottom">
-    <b-navbar variant="light" type="light" class="pt-3 pb-3">
+    <b-navbar toggleable="lg" :sticky="true" variant="dark" type="light" class="shadow">
       <b-nav class="m-auto">
-        <span class="mr-1">© Copyright 2020</span><a href="/">MG Akad. K. Popov</a>
+        <span class="mr-1"></span> <a href="/">Copyriright: Joe mama</a>
       </b-nav>
     </b-navbar>
   </footer>

@@ -28,7 +28,7 @@
     </div>
     <div class="row mb-4">
       <div class="col-12">
-        <ul class="list-unstyled">
+        <ul class="list-unsettled">
           <li v-for="restaurant in restaurants" v-bind:key="restaurant.id">
             {{ restaurant.name }}
           </li>
