@@ -1,21 +1,21 @@
 <template>
-  <b-navbar toggleable="lg" :sticky="true" variant="light" type="light" class="shadow">
+  <b-navbar toggleable="lg" :sticky="true" variant="dark" type="dark" class="shadow">
     <b-nav>
       <b-navbar-brand>
-        <b-button pill to="/">
+        <b-button class="btn btn-outline-info" pill to="/restaurant">
           <b-icon-shop></b-icon-shop>
         </b-button>
       </b-navbar-brand>
     </b-nav>
     <b-nav class="ml-auto">
       <b-nav-item to="/cart" right>
-        <b-button pill>
-          <b-icon-cart></b-icon-cart>
+        <b-button class="btn btn-outline-info" pill>
+          <b-icon-card-checklist></b-icon-card-checklist>
           <b-badge>{{ countCardItems }}</b-badge>
         </b-button>
       </b-nav-item>
       <b-nav-item>
-        <b-button pill id="profile-btn">
+        <b-button class="btn btn-outline-info" pill id="profile-btn">
           <b-icon-person></b-icon-person>
         </b-button>
         <b-popover target="profile-btn" title="Profile" triggers="focus" placement="bottom">
