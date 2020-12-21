@@ -50,11 +50,11 @@
 
 <script>
 import axios from "axios";
-import {config} from "@/config/config";
-import BasicComponent from "@/components/BasicComponent";
-import BaseMixin from "@/mixins/BaseMixin";
-import {saveJwt} from "@/utils/session_util"
-import {saveUser} from "@/utils/user_util";
+import {config} from "../config/config";
+import BasicComponent from "./BasicComponent";
+import BaseMixin from "../mixins/BaseMixin";
+import {saveJwt} from "../utils/session_util"
+import {saveUser} from "../utils/user_util";
 
 export default {
   name: 'Login',

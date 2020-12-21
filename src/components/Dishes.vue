@@ -56,14 +56,14 @@
 
 <script>
 import axios from "axios";
-import {config} from "@/config/config";
-import {addCartItem} from "@/utils/cart_util";
-import {EventBus} from "@/utils/event_bus";
-import BasicComponent from "@/components/BasicComponent";
-import BaseMixin from "@/mixins/BaseMixin";
-import {getHeaders} from "@/utils/axios_util";
-import {getJwt} from "@/utils/session_util";
-import {hasOrder} from "@/utils/order_util";
+import {config} from "../config/config";
+import {addCartItem} from "../utils/cart_util";
+import {EventBus} from "../utils/event_bus";
+import BasicComponent from "./BasicComponent";
+import BaseMixin from "../mixins/BaseMixin";
+import {getHeaders} from "../utils/axios_util";
+import {getJwt} from "../utils/session_util";
+import {hasOrder} from "../utils/order_util";
 
 export default {
   name: 'Dishes',

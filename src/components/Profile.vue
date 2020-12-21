@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import {deleteJwt} from "@/utils/session_util";
-import {removeUser, getUser} from "@/utils/user_util";
+import {deleteJwt} from "../utils/session_util";
+import {removeUser, getUser} from "../utils/user_util";
 
 export default {
   data() {

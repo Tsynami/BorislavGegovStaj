@@ -108,15 +108,15 @@
 
 <script>
 import axios from "axios";
-import {config} from "@/config/config";
-import {getCartItems, removeCartItem, clearCart} from "@/utils/cart_util";
-import {EventBus} from "@/utils/event_bus";
-import BasicComponent from "@/components/BasicComponent";
-import BaseMixin from "@/mixins/BaseMixin";
-import {getJwt} from "@/utils/session_util";
-import {getHeaders} from "@/utils/axios_util";
-import {getUser} from "@/utils/user_util";
-import {getOrder, saveOrder, removeOrder} from "@/utils/order_util";
+import {config} from "../config/config";
+import {getCartItems, removeCartItem, clearCart} from "../utils/cart_util";
+import {EventBus} from "../utils/event_bus";
+import BasicComponent from "./BasicComponent";
+import BaseMixin from "../mixins/BaseMixin";
+import {getJwt} from "../utils/session_util";
+import {getHeaders} from "../utils/axios_util";
+import {getUser} from "../utils/user_util";
+import {getOrder, saveOrder, removeOrder} from "../utils/order_util";
 
 export default {
   name: 'Cart',

@@ -8,6 +8,7 @@ import VueRouter from 'vue-router';
 import Cart from "./components/Cart";
 import Vuelidate from "vuelidate/src";
 import Restaurant from "./components/Restaurants";
+import Dishes from "./components/Dishes";
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);
@@ -17,7 +18,8 @@ Vue.use(Vuelidate);
 
 const routes = [
   {path: '/cart', component: Cart, name: 'cart'},
-  {path: '/restaurant', component: Restaurant, name: 'restaurant'}
+  {path: '/', component: Restaurant, name: 'restaurant'},
+  {path: '/dishes', component: Dishes, name: 'dishes'}
 ];
 
 const router = new VueRouter({mode: 'history', routes: routes})

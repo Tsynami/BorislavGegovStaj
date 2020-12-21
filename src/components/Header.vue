@@ -2,7 +2,7 @@
   <b-navbar toggleable="lg" :sticky="true" variant="dark" type="dark" class="shadow">
     <b-nav>
       <b-navbar-brand>
-        <b-button class="btn btn-outline-info" pill to="/restaurant">
+        <b-button class="btn btn-outline-info" pill to="/">
           <b-icon-shop></b-icon-shop>
         </b-button>
       </b-navbar-brand>
@@ -30,7 +30,7 @@
 <script>
 
 
-import Profile from "@/components/Profile";
+import Profile from "./Profile";
 
 export default {
   name: 'Header',
