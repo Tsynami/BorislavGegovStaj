@@ -9,6 +9,8 @@
       <div class="col-12">
         <h3>Restaurants</h3>
       </div>
+      <img>
+
     </div>
     <div class="row mb-4">
       <div class="col-12">
@@ -30,7 +32,24 @@
       <div class="col-12">
         <ul class="list-unstyled">
           <li v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-            {{ restaurant.name }}
+            <b-card
+                :title=restaurant.name
+                :img-src="'http://localhost:8082' + restaurant.image.formats.thumbnail.url"
+                img-alt="ERROR"
+                img-top
+                tag="article"
+                style="max-width: 20rem;"
+                class="mb-2"
+            >
+              <b-card-text>
+                {{restaurant.description}}
+              </b-card-text>
+              <b-card-text>
+                Address:
+                {{restaurant.address}}
+              </b-card-text>
+              <b-button :to="'/dishes/'+restaurant.id" style="color: black">Dishes</b-button>
+            </b-card>
           </li>
         </ul>
       </div>
