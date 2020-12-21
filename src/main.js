@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import Restaurant from "./components/Restaurant";
 import cart from "./components/cart";
+import dishes from "@/components/dishes";
 
 Vue.config.productionTip = false
 
@@ -17,7 +18,9 @@ Vue.use(IconsPlugin)
 
 const routes = [
     {path: '', component: Restaurant, name: 'Restaurants'},
-    {path: '/cart', component: cart, name: 'cart'}
+    {path: '/cart', component: cart, name: 'cart'},
+    {path: '/dishes', component: dishes, name: 'dishes'}
+
 
 ];
 

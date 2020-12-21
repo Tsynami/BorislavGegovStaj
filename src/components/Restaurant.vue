@@ -28,9 +28,27 @@
     </div>
     <div class="row mb-4">
       <div class="col-12">
-        <ul class="list-unsettled">
+        <ul class="list-unstyled" >
           <li v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-            {{ restaurant.name }}
+
+            <b-card
+
+                :title=restaurant.name
+                :img-src='serverUrl + restaurant.image.url'
+                img-alt= "Image"
+                img-top
+                tag="article"
+                style="max-width: 20rem;"
+                class="mb-2"
+            >
+              <b-card-text>
+                {{restaurant.description}}
+                <br>
+                <br> Адрес: {{restaurant.address}}
+              </b-card-text>
+
+              <b-button href="/dishes" variant="primary">Ястия</b-button>
+            </b-card>
           </li>
         </ul>
       </div>
@@ -84,5 +102,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+li{display: inline-block}
 </style>
