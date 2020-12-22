@@ -19,7 +19,8 @@ Vue.use(Vuelidate);
 const routes = [
   {path: '/cart', component: Cart, name: 'cart'},
   {path: '/', component: Restaurant, name: 'restaurant'},
-  {path: '/dishes', component: Dishes, name: 'dishes'}
+  {path: '/dishes', component: Dishes, name: 'dishes'},
+  {path: '/dishes/:id', component: Dishes, name: 'dishes/:id'}
 ];
 
 const router = new VueRouter({mode: 'history', routes: routes})

@@ -31,8 +31,8 @@
         <ul class="list-unsettled">
           <li v-for="restaurant in restaurants" v-bind:key="restaurant.id">
             <b-card
-                style="max-width: 20rem;"
-                img-src= "http://localhost:1337/uploads/chinese_RS_6f7c5e1b34.jpg"
+                style="max-width: 20rem"
+                :img-src= 'serverUrl + restaurant.image.formats.small.url '
                 img-alt="Card Image"
                 text-variant="dark"
                 :title= restaurant.name

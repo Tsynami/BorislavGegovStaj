@@ -23,7 +23,7 @@
           <li v-for="dish in dishes" v-bind:key="dish.id">
             <b-card
                 :title="dish.name"
-                :img-src="serverUrl + dish.image.formats.small.url"
+                :img-src="serverUrl + dish.image.url"
                 img-alt="Image"
                 img-top
                 tag="article"
@@ -32,6 +32,8 @@
             >
               <b-card-text>
                 {{ dish.description }}
+                <div></div>
+                Weight: {{ dish.weight }}g
               </b-card-text>
 
               <div>
@@ -61,8 +63,6 @@ import {addCartItem} from "../utils/cart_util";
 import {EventBus} from "../utils/event_bus";
 import BasicComponent from "./BasicComponent";
 import BaseMixin from "../mixins/BaseMixin";
-import {getHeaders} from "../utils/axios_util";
-import {getJwt} from "../utils/session_util";
 import {hasOrder} from "../utils/order_util";
 
 export default {
@@ -89,10 +89,8 @@ export default {
       if (name) {
         url += "?name_contains=" + name;
       }
-      const jwt = getJwt();
       this.isLoading = true;
-      let axiosOptions = getHeaders(jwt);
-      axios.get(url, axiosOptions)
+      axios.get(url)
           .then(function (response) {
             me.restaurant = response.data
             me.dishes = me.restaurant.dishes;
