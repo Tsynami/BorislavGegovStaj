@@ -30,7 +30,21 @@
       <div class="col-12">
         <ul class="list-unstyled">
           <li v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-            {{ restaurant.name }}
+            <b-card
+                :title="restaurant.name"
+                :img-src="serverUrl + restaurant.image.formats.small.url"
+                img-alt="Image"
+                img-top
+                tag="article"
+                style="max-width: 20rem;"
+                class="mb-2"
+            >
+              <b-card-text>
+                {{ restaurant.description }}
+              </b-card-text>
+
+              <b-button :to="'/dishes/'+restaurant.id" style="color: white" tex>Dishes</b-button>
+            </b-card>
           </li>
         </ul>
       </div>
@@ -46,7 +60,7 @@ import {config} from "@/config/config";
 import axios from "axios";
 
 export default {
-  name: 'Restaurant',
+  name: 'Restaurants',
   components: {BasicComponent},
   mixins: [BaseMixin],
   data: function () {
@@ -84,5 +98,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
 </style>

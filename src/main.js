@@ -5,7 +5,8 @@ import VueRouter from 'vue-router'
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-import Restaurant from "./components/Restaurant";
+import Restaurants from "./components/Restaurants";
+import Dishes from "./components/Dishes";
 
 Vue.config.productionTip = false
 
@@ -15,7 +16,8 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
 const routes = [
-    {path: '', component: Restaurant, name: 'Restaurants'}
+    {path: '', component: Restaurants, name: 'Restaurants'},
+    {path: '/dishes/:id', component: Dishes, name: 'Dishes'}
 ];
 
 const router = new VueRouter({

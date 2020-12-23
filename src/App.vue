@@ -16,6 +16,7 @@
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import './assets/sass/main.scss';
 
 export default {
   name: 'App',
