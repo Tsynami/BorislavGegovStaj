@@ -34,11 +34,11 @@
           <li v-for="restaurant in restaurants" v-bind:key="restaurant.id">
             <b-card
                 :title=restaurant.name
-                :img-src="'http://localhost:8082' + restaurant.image.formats.thumbnail.url"
+                :img-src="serverUrl + restaurant.image.formats.thumbnail.url" img-height="200" img-width="100"
                 img-alt="ERROR"
                 img-top
                 tag="article"
-                style="max-width: 20rem;"
+                style="max-width: 20rem; min-height: 400px"
                 class="mb-2"
             >
               <b-card-text>
@@ -48,7 +48,9 @@
                 Address:
                 {{restaurant.address}}
               </b-card-text>
+
               <b-button :to="'/dishes/'+restaurant.id" style="color: black">Dishes</b-button>
+
             </b-card>
           </li>
         </ul>
@@ -103,5 +105,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+  li{
+    display: inline-block;
+    margin: 0 10px;
+  }
 </style>
