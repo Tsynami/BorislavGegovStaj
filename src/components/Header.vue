@@ -30,11 +30,9 @@
 <script>
 
 
-import Profile from "./Profile";
 
 export default {
   name: 'Header',
-  components: {Profile},
   props: {
     countCardItems: Number
   },

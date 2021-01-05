@@ -37,7 +37,7 @@
             </div>
           </template>
           <hr class="my-4">
-          <b-button v-if="!order.id" variant="danger" @click="placeOrder">Finish order</b-button>
+          <b-button v-if="!order.id" variant="danger" >Finish order</b-button>
           <div v-else>
             Order status: {{ order.status }}
           </div>
@@ -59,7 +59,7 @@
           <li v-for="orderedDish in order.dishes" v-bind:key="orderedDish.dish.id">
             <b-card
                 :title="orderedDish.dish.name"
-                :img-src="serverUrl + orderedDish.dish.image.formats.small.url"
+                :img-src="serverUrl + orderedDish.dish.image.url"
                 img-alt="Image"
                 img-top
                 tag="article"
@@ -110,13 +110,8 @@
 import axios from "axios";
 import {config} from "../config/config";
 import {getCartItems, removeCartItem, clearCart} from "../utils/cart_util";
-import {EventBus} from "../utils/event_bus";
 import BasicComponent from "./BasicComponent";
 import BaseMixin from "../mixins/BaseMixin";
-import {getJwt} from "../utils/session_util";
-import {getHeaders} from "../utils/axios_util";
-import {getUser} from "../utils/user_util";
-import {getOrder, saveOrder, removeOrder} from "../utils/order_util";
 
 export default {
   name: 'Cart',
@@ -144,11 +139,9 @@ export default {
       let orderedDishes = this.cartItems.map((item) => {
         return {"dish": item, "full_price": item.price, count: 1}
       });
-      const user = getUser();
       let order = {
         status: "Pending",
         dishes: orderedDishes,
-        users_permissions_user: user
       };
       order.total_price = this.getTotalPrice(order);
       return order;
@@ -161,7 +154,6 @@ export default {
       removeCartItem(orderedDish.dish);
       this.cartItems = getCartItems();
       this.constructOrderFromCartItems();
-      EventBus.$emit("cart-item-event");
     },
     updateCartItemCount(dish) {
       if (this.order.id) {
@@ -175,16 +167,13 @@ export default {
     loadOrder(id) {
       let me = this;
       let url = config.serverUrl + "/orders/" + id;
-      const jwt = getJwt();
-      let axiosOptions = getHeaders(jwt);
-      axios.get(url, axiosOptions)
+      axios.get(url)
           .then(function (response) {
             if (response.data.status !== 'Cancelled' && response.data.status !== 'Ready') {
               me.order = response.data;
             } else {
               me.showError('This order is no longer active!');
               me.order = null;
-              removeOrder();
               me.cartItems = [];
               clearCart();
             }
@@ -197,44 +186,12 @@ export default {
             me.showError('Error loading order!');
           })
     },
-    placeOrder() {
-      if (this.order && this.order.id) {
-        me.showError('You have already ordered!');
-        return;
-      }
-      let me = this;
-      let url = config.serverUrl + "/orders";
-      // let orderedDishes = this.cartItems.map((item) => {
-      //   return {"dish": item, "full_price": item.fullPrice}
-      // });
-      // const user = getUser();
-      // const order = {
-      //   total_price: this.totalPrice,
-      //   status: "Pending",
-      //   dishes: orderedDishes,
-      //   users_permissions_user: user
-      // };
-      this.isLoading = false;
-      const jwt = getJwt();
-      let axiosOptions = getHeaders(jwt);
-      axios.post(url, this.order, axiosOptions)
-          .then(function (response) {
-            saveOrder(response.data);
-            this.order = response.data;
-            me.isLoading = false;
-          })
-          .catch(function (error) {
-            console.log(error);
-            me.isLoading = false;
-            me.showError('Error ordering!');
-          })
-    },
     getTotalPrice(order) {
       let totalPrice = 0;
       for (const item of order.dishes) {
         totalPrice += item.full_price;
       }
-      return totalPrice;
+      return totalPrice.toFixed(2);
     }
   },
   watch: {
@@ -245,22 +202,16 @@ export default {
   },
   mounted() {
     this.serverUrl = config.serverUrl;
-    this.order = getOrder();
     if (this.order && this.order.id) {
       this.loadOrder(this.order.id);
     } else {
       this.getItems();
     }
-    EventBus.$on('cart-item-event', () => {
-      if (!this.order || !this.order.id) {
-        this.getItems();
-      }
-    });
+
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;

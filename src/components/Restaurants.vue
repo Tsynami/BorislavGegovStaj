@@ -32,7 +32,7 @@
           <li v-for="restaurant in restaurants" v-bind:key="restaurant.id">
             <b-card
                 style="max-width: 20rem"
-                :img-src= 'serverUrl + restaurant.image.formats.small.url '
+                :img-src= 'serverUrl + restaurant.image.url '
                 img-alt="Card Image"
                 text-variant="dark"
                 :title= restaurant.name
@@ -103,7 +103,6 @@ export default {
 </script>
 
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 ul {
   list-style-type: none;

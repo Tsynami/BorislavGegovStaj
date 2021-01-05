@@ -8,8 +8,9 @@
     <div class="row mb-4">
       <div class="col-12">
         <b-jumbotron>
+          <b-img :src="serverUrl + restaurant.image.url" fluid alt="Responsive image"></b-img>
           <template #header>{{ restaurant.name }}
-            <!--            <b-img :src="serverUrl + restaurant.image.formats.small.url" fluid alt="Responsive image"></b-img>-->
+
           </template>
           <template #lead>
             {{ restaurant.description }}
@@ -39,7 +40,7 @@
               <div>
                 <div class="row">
                   <div class="col-6">
-                    <b-button v-if="!hasOrder" @click="addToCart(dish)">
+                    <b-button @click="addToCart(dish)">
                       <b-icon-cart></b-icon-cart>
                     </b-button>
                   </div>
@@ -60,10 +61,8 @@
 import axios from "axios";
 import {config} from "../config/config";
 import {addCartItem} from "../utils/cart_util";
-import {EventBus} from "../utils/event_bus";
 import BasicComponent from "./BasicComponent";
 import BaseMixin from "../mixins/BaseMixin";
-import {hasOrder} from "../utils/order_util";
 
 export default {
   name: 'Dishes',
@@ -103,11 +102,7 @@ export default {
           })
     },
     addToCart(dish) {
-      if(this.hasOrder){
-        return;
-      }
       addCartItem(dish);
-      EventBus.$emit("cart-item-event")
     }
   },
   watch: {
@@ -118,13 +113,11 @@ export default {
   },
   mounted() {
     this.serverUrl = config.serverUrl;
-    this.hasOrder = hasOrder();
     this.searchDishes();
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
