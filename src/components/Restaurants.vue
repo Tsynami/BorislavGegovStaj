@@ -67,7 +67,7 @@ import {config} from "@/config/config";
 import axios from "axios";
 
 export default {
-  name: 'Restaurant',
+  name: 'Restaurants',
   components: {BasicComponent},
   mixins: [BaseMixin],
   data: function () {

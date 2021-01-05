@@ -8,14 +8,26 @@
     <div class="row mb-4">
       <div class="col-12">
         <b-jumbotron>
-          <div class="mb-4">
-            <b-img :src="serverUrl + restaurant.image.formats.thumbnail.url" fluid alt="Responsive image"></b-img>
-          </div>
           <template #header>
-            {{ restaurant.name }}
-          </template>
-          <template #lead>
-            {{ restaurant.description }}
+            <div class="row">
+              <div class="col-4">
+                <b-img
+                    thumbnail
+                    rounded="circle"
+                    fluid
+                    v-if="restaurant.image"
+                    :src="serverUrl + restaurant.image.formats.small.url"
+                    alt="Responsive image"></b-img>
+              </div>
+              <div class="col-8">
+                <div class="row" v-if="restaurant.id">
+                  {{ restaurant.name }}
+                </div>
+                <div class="row" style="font-size: 2rem">
+                  {{ restaurant.description }}
+                </div>
+              </div>
+            </div>
           </template>
         </b-jumbotron>
       </div>
@@ -34,25 +46,24 @@
                 class="mb-2"
             >
               <b-card-text>
-                {{dish.description}}
+                {{ dish.description }}
               </b-card-text>
-
               <b-card-text>
                 Weight:
                 {{dish.weight}}g
               </b-card-text>
-              <div class="row">
-                <div class="col-6">
-                  <b-button><b-icon-cart></b-icon-cart></b-button>
-                </div>
-                <div class="col-6 text-right align-self-center">
-                  <b-card-text>
-                    {{dish.price}}lv.
-                  </b-card-text>
+              <div>
+                <div class="row">
+                  <div class="col-6">
+                    <b-button @click="addToCart(dish)">
+                      <b-icon-cart></b-icon-cart>
+                    </b-button>
+                  </div>
+                  <div class="col-6 text-right align-self-center">
+                    <span class="">{{ dish.price }} Lv</span>
+                  </div>
                 </div>
               </div>
-
-
             </b-card>
           </li>
         </ul>
@@ -62,52 +73,82 @@
 </template>
 
 <script>
+import axios from "axios";
 import {config} from "@/config/config";
 import BasicComponent from "@/components/BasicComponent";
-import axios from "axios";
+import BaseMixin from "@/mixins/BaseMixin";
+import {addCartItem} from "@/utils/cart_util";
 
 export default {
-  name: "Dishes",
+  name: 'Dishes',
   components: {BasicComponent},
+  props: {},
+  mixins: [BaseMixin],
   data: function () {
     return {
       restaurant: Object,
       dishes: Array,
       serverUrl: String,
+      searchTerm: ""
     };
   },
   methods: {
-    loadDishes: function (term) {
-      const me = this;
+    search() {
+      this.searchDishes(this.searchTerm);
+    },
+    searchDishes(name) {
+      let me = this;
       let url = config.serverUrl + "/restaurants/" + this.$route.params.id;
-      if (term) {
-        url += '?name_contains=' + term;
+      if (name) {
+        url += "?name_contains=" + name;
       }
       this.isLoading = true;
       axios.get(url)
           .then(function (response) {
-            me.dishes = response.data.dishes;
-            me.restaurant = response.data;
+            me.restaurant = response.data
+            me.dishes = me.restaurant.dishes;
             me.isLoading = false;
           })
           .catch(function (error) {
-            console.error(error);
-            me.showError('Error loading!');
+            console.log(error);
             me.isLoading = false;
-          });
+            me.showError('Error loading!');
+          })
     },
+    addToCart(dish) {
+      addCartItem(dish);
+    }
+  },
+  watch: {
+    $route(to, from) {
+      console.log(to);
+      console.log(from);
+    }
   },
   mounted() {
-    this.loadDishes();
     this.serverUrl = config.serverUrl;
+    this.searchDishes();
   }
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  li {
-    display: inline-block;
-    margin: 0 10px
-  }
+h3 {
+  margin: 40px 0 0;
+}
 
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+a {
+  color: #42b983;
+}
 </style>
