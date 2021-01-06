@@ -147,19 +147,11 @@ export default {
       return order;
     },
     removeFromCart(orderedDish) {
-      if (this.order.id) {
-        this.showError('You have already ordered!');
-        return;
-      }
       removeCartItem(orderedDish.dish);
       this.cartItems = getCartItems();
       this.constructOrderFromCartItems();
     },
     updateCartItemCount(dish) {
-      if (this.order.id) {
-        this.showError('You have already ordered!');
-        return;
-      }
       dish.count = Number.parseInt(dish.count);
       dish.full_price = dish.count * dish.dish.price;
       this.order.total_price = this.getTotalPrice(this.order);
