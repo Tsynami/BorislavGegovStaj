@@ -45,7 +45,6 @@ export function updateCartItem(item) {
     } else {
         let itemIndex = findCartItemIndex(item);
         if (itemIndex > -1) {
-            itemIndex > -1;
             cartItems[itemIndex] = Object.assign(item);
         }
     }
