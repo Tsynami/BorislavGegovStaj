@@ -7,7 +7,7 @@ import {BootstrapVue, IconsPlugin} from "bootstrap-vue";
 import VueRouter from 'vue-router';
 import Cart from "./components/Cart";
 import Vuelidate from "vuelidate/src";
-import Restaurant from "./components/Restaurants";
+import Restaurant from "./components/Restaurant";
 import Dishes from "./components/Dishes";
 import LoginComponent from "./components/LoginComponent";
 

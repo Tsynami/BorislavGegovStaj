@@ -1,13 +1,16 @@
-export function saveJwt(jwt){
+export function saveJwt(jwt) {
     sessionStorage.setItem('token', jwt);
 }
-export function getJwt(){
-    sessionStorage.getItem('token')
+
+export function getJwt() {
+    return sessionStorage.getItem('token');
 }
-export function deleteJwt(){
-    sessionStorage.removeItem('token')
+
+export function deleteJwt() {
+    sessionStorage.removeItem('token');
 }
-export function isLoggedIn(){
+
+export function isLoggedIn() {
     const jwt = getJwt();
-    return jwt !== null;
+    return jwt != null;
 }

@@ -2,7 +2,7 @@
   <footer class="shadow fixed-bottom">
     <b-navbar variant="light" type="light" class="pt-3 pb-3">
       <b-nav class="m-auto">
-        <span>© 2020 Copyright:</span> <a href="https://localhost:8080">MG Plovdiv</a>
+        <span class="mr-1">© Copyright 2020</span><a href="/">MG Akad. K. Popov</a>
       </b-nav>
     </b-navbar>
   </footer>
@@ -10,13 +10,17 @@
 
 <script>
 
-
 export default {
   name: 'Footer',
-  data() {
-    return {}
+  components: {},
+  data: function () {
+    return {};
   },
-  watch: {},
-  methods: {}
+  methods: {},
+  mounted() {
+  }
 }
 </script>
+
+<style>
+</style>
