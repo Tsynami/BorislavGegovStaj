@@ -9,7 +9,19 @@
         </b-navbar-brand>
       </b-nav>
       <b-nav class="ml-auto">
-
+      </b-nav>
+      <b-nav>
+        <b-button pill id="profile-btn">
+          <b-icon-person></b-icon-person>
+        </b-button>
+        <b-popover
+            target="profile-btn"
+            title="Profile"
+            triggers="focus"
+            placement="bottom"
+        >
+          <Profile></Profile>
+        </b-popover>
       </b-nav>
     </b-navbar>
   </header>
@@ -17,9 +29,11 @@
 
 <script>
 
+import Profile from "./Profile";
+
 export default {
   name: 'Header',
-  components: {},
+  components: {Profile},
   data: function () {
     return {};
   },
