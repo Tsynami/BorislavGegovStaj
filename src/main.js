@@ -9,7 +9,7 @@ import Cart from "./components/Cart";
 import Vuelidate from "vuelidate/src";
 import Restaurant from "./components/Restaurant";
 import Dishes from "./components/Dishes";
-import LoginComponent from "./components/LoginComponent";
+import LoginFormComponent from "./components/LoginFormComponent";
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);
@@ -22,7 +22,7 @@ const routes = [
   {path: '/', component: Restaurant, name: 'restaurant'},
   {path: '/dishes', component: Dishes, name: 'dishes'},
   {path: '/dishes/:id', component: Dishes, name: 'dishes/:id'},
-  {path: '/login', component: LoginComponent, name: 'login'}
+  {path: '/login', component: LoginFormComponent, name: 'login'}
 ];
 
 const router = new VueRouter({mode: 'history', routes: routes})

@@ -1,127 +1,91 @@
 <template>
-  <b-form @submit.prevent="login">
-    <div class="container mt-4">
-      <div class="row">
-        <div class="col-12">
-          <div class="card" style="width: 69rem;">
-            <div class="card-header">
-              {{title}}
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <b-input-group>
-                  <b-form-input v-model="email" placeholder="E-mail"></b-form-input>
-                </b-input-group>
-              </li>
-              <li class="list-group-item">
-                <b-input-group>
-                  <b-form-input type = "password" v-model="password" placeholder="Password"></b-form-input>
-                </b-input-group>
-              </li>
-            </ul>
-            <div class="card-footer">
-              <button type="submit" class="btn btn-success">Send</button>
+  <BasicComponent :loading="isLoading">
+    <b-form @submit.prevent="Login">
+      <div class="row justify-content-center">
+        <div class="row">
+          <div class="col-13">
+            <div class="card" style="width: 20rem;">
+              <div class="card-header">
+                Login
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <b-input-group>
+                    <b-form-input v-model="email" placeholder="E-mail"></b-form-input>
+                  </b-input-group>
+                </li>
+                <li class="list-group-item">
+                  <b-input-group>
+                    <b-form-input type = "password" v-model="password" placeholder="Password"></b-form-input>
+                  </b-input-group>
+                </li>
+              </ul>
+              <b-input-group>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-success">Send</button>
+                </div>
+              </b-input-group>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <alert-component
-        title="Status"
-        :status="submitStatus"
-        v-if="isAlertShown"
-        @close-alert="onAlertClose">
-      <div v-if="submitStatus === 'OK'">Submission successful</div>
-      <div v-else>ERROR!!!!</div>
-    </alert-component>
-  </b-form>
+    </b-form>
+  </BasicComponent>
 </template>
 
 <script>
-import {email, minLength, required} from "vuelidate/lib/validators";
 import axios from "axios";
 import {config} from "../config/config";
-import {saveJwt} from "../utils/session_util";
+import BasicComponent from "../components/BasicComponent";
+import BaseMixin from "../mixins/BaseMixin";
+import {saveJwt} from "../utils/session_util"
 import {saveUser} from "../utils/user_util";
-import AlertComponent from "./AlertComponent";
-
+import {email, password, minLength, required} from "vuelidate/lib/validators";
 export default {
-name: "LoginFormComponent",
-  components: {AlertComponent},
-  props: {
-    title: String
-  },
+  name: 'Login',
+  components: {BasicComponent},
+  mixins: [BaseMixin],
+  props: {},
   data: function () {
     return {
-      email: '',
-      password: '',
-      submitStatus: '',
-      isAlertShown: false
-    }
+      email: "",
+      password: ""
+    };
   },
   methods: {
-  login(){
-    let me = this;
-    let url = config.serverUrl + "/auth/local";
-    this.isLoading = true;
-    const loginData ={identifier: this.email, password: this.password};
-    axios.post(url, loginData)
-    .then(function (response){
-      let jwt = response.data.jwt;
-      let user = response.data.user;
-      saveJwt(jwt);
-      saveUser(user);
-      me.isLoading = false;
-      me.$router.push('/');
-    })
-    .catch(function(error){
-      let errorMessage = (
-        error.response &&
-            error.response.data &&
-            error.response.data.data[0] &&
-            error.response.data.data[0].message &&
-            error.response.data.data[0].message.message
-      ) ?
-          (error.response.data.data[0].message.message) :
-          "Error logging in";
-      me.isLoading = false;
-      me.show(errorMessage);
-    })
-  },
-    submit: function () {
-      this.isAlertShown = true;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.submitStatus = 'ERROR'
-      } else {
-        this.submitStatus = 'OK'
-      }
-    },
-    onAlertClose: function (val) {
-      this.isAlertShown = false;
-      console.log(val);
-    },
-    focusEmailInput() {
-      this.$refs.inputEmail.focus();
+    Login() {
+      let me = this;
+      let url = config.serverUrl + "/auth/local";
+      this.isLoading = true;
+      const loginData = {identifier: this.email, password: this.password}
+      axios.post(url, loginData)
+          .then(function (response) {
+            let jwt = response.data.jwt;
+            let user = response.data.user;
+            saveJwt(jwt);
+            saveUser(user);
+            me.isLoading = false;
+            me.$router.push('/');
+          })
+          .catch(function() {
+
+            me.isLoading = false;
+            me.showError("Please try again.");
+          })
     }
   },
-  computed: {},
-  watch: {},
-  mounted() {
-    this.focusEmailInput();
-  },
-  validations: {
-    email: {
+  validations:{
+    email:{
       required,
-      minLength: minLength(4),
+      minLength: minLength(8),
       email
     },
-    password: {
+    password:{
       required,
-      minLength: minLength(4)
+      minlength: minLength(4),
+      password
     }
   }
-
 }
 </script>
 
