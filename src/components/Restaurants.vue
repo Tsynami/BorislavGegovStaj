@@ -65,6 +65,8 @@ import BasicComponent from "./BasicComponent";
 import BaseMixin from "../mixins/BaseMixin";
 import {config} from "@/config/config";
 import axios from "axios";
+import {getJwt} from "../utils/session_util";
+import {getHeaders} from "../utils/axios_util";
 
 export default {
   name: 'Restaurants',
@@ -87,7 +89,9 @@ export default {
         url += '?name_contains=' + term;
       }
       this.isLoading = true;
-      axios.get(url)
+      const jwt = getJwt();
+      const axiosOptions = getHeaders(jwt);
+      axios.get(url, axiosOptions)
           .then(function (response) {
             me.restaurants = response.data;
             me.isLoading = false;
