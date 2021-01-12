@@ -94,9 +94,9 @@ export default {
   },
   methods: {
     search() {
-      this.searchDishes(this.searchTerm);
+      this.loadDishes(this.searchTerm);
     },
-    searchDishes(name) {
+    loadDishes(name) {
       let me = this;
       let url = config.serverUrl + "/restaurants/" + this.$route.params.id;
       if (name) {
@@ -127,7 +127,7 @@ export default {
   },
   mounted() {
     this.serverUrl = config.serverUrl;
-    this.searchDishes();
+    this.loadDishes();
   }
 }
 </script>

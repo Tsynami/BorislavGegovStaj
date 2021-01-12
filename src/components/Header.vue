@@ -1,28 +1,31 @@
 <template>
   <header>
     <b-navbar toggleable="lg" :sticky="true" variant="dark" type="dark" class="shadow">
-      <b-navbar-nav>
+      <b-nav>
         <b-navbar-brand>
-          <div class="row">
-            <div class="col-6">
-              <b-button pill to="/">
-                <b-icon-shop></b-icon-shop>
-              </b-button>
-            </div>
-            <div class="col-6">
-              <b-button pill to="/cart" style="">
-                <b-icon-cart></b-icon-cart>
-              </b-button>
-            </div>
-          </div>
-
-
+          <b-button pill to="/">
+            <b-icon-shop></b-icon-shop>
+            Home
+          </b-button>
         </b-navbar-brand>
-      </b-navbar-nav>
+      </b-nav>
       <b-nav class="ml-auto">
+        <b-nav-item>
+          <b-button pill to="/cart" right>
+            <b-icon-cart-fill></b-icon-cart-fill>
+            Cart
+          </b-button>
+        </b-nav-item>
+        <b-nav-item>
+          <b-button pill to="/login" right>
+            <b-icon-person-fill></b-icon-person-fill>
+            Login
+          </b-button>
+        </b-nav-item>
       </b-nav>
     </b-navbar>
   </header>
+  
 </template>
 
 <script>

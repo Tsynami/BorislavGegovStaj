@@ -49,7 +49,7 @@
                 {{restaurant.address}}
               </b-card-text>
 
-              <b-button :to="'/dishes/'+restaurant.id" style="color: black">Dishes</b-button>
+              <b-button :to="'/dishes/'+restaurant.id" style="color: white">Dishes</b-button>
 
             </b-card>
           </li>
