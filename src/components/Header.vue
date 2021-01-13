@@ -11,6 +11,14 @@
       <b-nav class="ml-auto">
       </b-nav>
       <b-nav>
+        <b-nav-item to="/cart" right>
+          <b-button pill>
+            <b-icon-cart></b-icon-cart>
+            <b-badge></b-badge>
+          </b-button>
+        </b-nav-item>
+      </b-nav>
+      <b-nav>
         <b-button pill id="profile-btn">
           <b-icon-person></b-icon-person>
         </b-button>

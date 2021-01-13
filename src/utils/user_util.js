@@ -1,9 +1,9 @@
 export function saveUser(user) {
-    sessionStorage.setItem('user', user);
+    sessionStorage.setItem('user', JSON.stringify(user));
 }
 
 export function getUser() {
-    return sessionStorage.getItem('user');
+    return JSON.parse(sessionStorage.getItem('user'));
 }
 
 export function removeUser() {

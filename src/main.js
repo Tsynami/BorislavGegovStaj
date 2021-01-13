@@ -8,6 +8,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import Restaurants from "./components/Restaurants";
 import Dishes from "./components/Dishes";
 import Login from "./components/Login";
+import {isLoggedIn} from "./utils/session_util";
+import Cart from "./components/Cart";
 
 Vue.config.productionTip = false
 
@@ -19,7 +21,8 @@ Vue.use(IconsPlugin)
 const routes = [
     {path: '/login', component: Login, name: 'Login'},
     {path: '', component: Restaurants, name: 'Restaurants'},
-    {path: '/dishes/:id', component: Dishes, name: 'Dishes'}
+    {path: '/dishes/:id', component: Dishes, name: 'Dishes'},
+    {path: '/cart', component: Cart, name: 'Cart'}
 ];
 
 const router = new VueRouter({
@@ -28,19 +31,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    // if user is not logged in redirect to route /login
-    // if the user is in /login and is logged in redirect to /
-    // https://router.vuejs.org/guide/advanced/navigation-guards.html
-    console.log(to);
-    console.log(from);
-    console.log(next);
-    next();
-    // if(to.name!=='Login'){
-    //     next({name: 'Login'});
-    // }else{
-    //
-    // }
-
+    const isAuthenticated = isLoggedIn();
+    if (to.name === 'Login' && isAuthenticated) {
+        next({name: 'Restaurants'});
+    }
+    if (to.name !== 'Login' && !isAuthenticated) {
+        next({name: 'Login'});
+    } else {
+        next();
+    }
 })
 
 new Vue({
