@@ -18,9 +18,9 @@
         <b-button class="btn btn-outline-info" pill id="profile-btn">
           <b-icon-person></b-icon-person>
         </b-button>
-        <b-popover target="profile-btn" title="Profile" triggers="focus" placement="bottom">
-          <Profile></Profile>
-        </b-popover>
+          <b-popover triggers="focus" placement="bottom" target="profile-btn">
+            <Profile></Profile>
+          </b-popover>
       </b-nav-item>
     </b-nav>
     <b-navbar-toggle target="nav-collapse" class="ml-auto"></b-navbar-toggle>
@@ -29,10 +29,11 @@
 
 <script>
 
-
+import Profile from "./Profile";
 
 export default {
   name: 'Header',
+  components: {Profile},
   props: {
     countCardItems: Number
   },
