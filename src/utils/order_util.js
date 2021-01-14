@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-h
-=======
 export function saveOrder(order) {
     sessionStorage.setItem('order', JSON.stringify(order));
 }
@@ -16,4 +13,3 @@ export function hasOrder() {
 export function removeOrder() {
     sessionStorage.removeItem('order');
 }
->>>>>>> origin/dev

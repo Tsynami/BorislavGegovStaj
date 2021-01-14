@@ -37,11 +37,7 @@
             </div>
           </template>
           <hr class="my-4">
-<<<<<<< HEAD
-          <b-button v-if="!order.id" variant="danger" >Finish order</b-button>
-=======
-          <b-button v-if="!order.id" variant="danger" @click="placeOrder">Finish order</b-button>
->>>>>>> origin/dev
+          <b-button @click="placeOrder" v-if="!order.id" variant="danger" >Finish order</b-button>
           <div v-else>
             Order status: {{ order.status }}
           </div>
@@ -63,11 +59,7 @@
           <li v-for="orderedDish in order.dishes" v-bind:key="orderedDish.dish.id">
             <b-card
                 :title="orderedDish.dish.name"
-<<<<<<< HEAD
                 :img-src="serverUrl + orderedDish.dish.image.url"
-=======
-                :img-src="serverUrl + orderedDish.dish.image.formats.small.url"
->>>>>>> origin/dev
                 img-alt="Image"
                 img-top
                 tag="article"
@@ -116,22 +108,15 @@
 
 <script>
 import axios from "axios";
-<<<<<<< HEAD
 import {config} from "../config/config";
-import {getCartItems, removeCartItem, clearCart} from "../utils/cart_util";
+import {getCartItems, removeCartItem} from "../utils/cart_util";
 import BasicComponent from "./BasicComponent";
 import BaseMixin from "../mixins/BaseMixin";
-=======
-import {config} from "@/config/config";
-import {getCartItems, removeCartItem} from "@/utils/cart_util";
-import BasicComponent from "@/components/BasicComponent";
-import BaseMixin from "@/mixins/BaseMixin";
-import {getJwt} from "@/utils/session_util";
-import {getHeaders} from "@/utils/axios_util";
-import {getUser} from "@/utils/user_util";
-import {getOrder} from "@/utils/order_util";
+import {getJwt} from "../utils/session_util";
+import {getHeaders} from "../utils/axios_util";
+import {getUser} from "../utils/user_util";
+import {getOrder} from "../utils/order_util";
 import {hasOrder} from "../utils/order_util";
->>>>>>> origin/dev
 
 export default {
   name: 'Cart',
@@ -159,68 +144,35 @@ export default {
       let orderedDishes = this.cartItems.map((item) => {
         return {"dish": item, "full_price": item.price, count: 1}
       });
-<<<<<<< HEAD
-      let order = {
-        status: "Pending",
-        dishes: orderedDishes,
-=======
+
       const user = getUser();
       let order = {
         status: "Pending",
         dishes: orderedDishes,
         users_permissions_user: user
->>>>>>> origin/dev
       };
       order.total_price = this.getTotalPrice(order);
       return order;
     },
     removeFromCart(orderedDish) {
-<<<<<<< HEAD
-=======
+
       if (this.order.id) {
         this.showError('You have already ordered!');
         return;
       }
->>>>>>> origin/dev
       removeCartItem(orderedDish.dish);
       this.cartItems = getCartItems();
       this.constructOrderFromCartItems();
     },
     updateCartItemCount(dish) {
-<<<<<<< HEAD
-=======
       if (this.order.id) {
         this.showError('You have already ordered!');
         return;
       }
->>>>>>> origin/dev
       dish.count = Number.parseInt(dish.count);
       dish.full_price = dish.count * dish.dish.price;
       this.order.total_price = this.getTotalPrice(this.order);
     },
-<<<<<<< HEAD
-    loadOrder(id) {
-      let me = this;
-      let url = config.serverUrl + "/orders/" + id;
-      axios.get(url)
-          .then(function (response) {
-            if (response.data.status !== 'Cancelled' && response.data.status !== 'Ready') {
-              me.order = response.data;
-            } else {
-              me.showError('This order is no longer active!');
-              me.order = null;
-              me.cartItems = [];
-              clearCart();
-            }
-
-            me.isLoading = false;
-          })
-          .catch(function (error) {
-            console.log(error);
-            me.isLoading = false;
-            me.showError('Error loading order!');
-          })
-=======
     placeOrder() {
       if (this.order && this.order.id) {
         me.showError('You have already ordered!');
@@ -232,18 +184,13 @@ export default {
       const jwt = getJwt();
       let axiosOptions = getHeaders(jwt);
       axios.post(url, this.order, axiosOptions);
->>>>>>> origin/dev
     },
     getTotalPrice(order) {
       let totalPrice = 0;
       for (const item of order.dishes) {
         totalPrice += item.full_price;
       }
-<<<<<<< HEAD
       return totalPrice.toFixed(2);
-=======
-      return totalPrice;
->>>>>>> origin/dev
     }
   },
   watch: {
@@ -254,25 +201,16 @@ export default {
   },
   mounted() {
     this.serverUrl = config.serverUrl;
-<<<<<<< HEAD
-    if (this.order && this.order.id) {
-      this.loadOrder(this.order.id);
-    } else {
-=======
     this.order = getOrder();
     if (!hasOrder()) {
->>>>>>> origin/dev
       this.getItems();
     }
-
   }
 }
+
+
 </script>
 
-<<<<<<< HEAD
-=======
-<!-- Add "scoped" attribute to limit CSS to this component only -->
->>>>>>> origin/dev
 <style scoped>
 h3 {
   margin: 40px 0 0;
