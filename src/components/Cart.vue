@@ -168,8 +168,7 @@ export default {
       dish.count = Number.parseInt(dish.count);
       dish.full_price = dish.count * dish.dish.price;
       this.order.total_price = this.totalPrice(this.order);
-    },
-    
+    },   
     totalPrice(order) {
       let totalPrice = 0;
       for (const item of order.dishes) {

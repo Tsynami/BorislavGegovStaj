@@ -31,4 +31,7 @@ export default {
 </script>
 
 <style>
+.popover{
+  width: 500px;
+}
 </style>

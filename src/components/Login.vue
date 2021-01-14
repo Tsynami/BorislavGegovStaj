@@ -71,8 +71,8 @@ export default {
       let me = this;
       let url = config.serverUrl + "/auth/local";
       this.isLoading = true;
-      const loginData = {identifier: this.email, password: this.password}
-      axios.post(url, loginData)
+      const loginInfo = {identifier: this.email, password: this.password}
+      axios.post(url, loginInfo)
           .then(function (response) {
             let jwt = response.data.jwt;
             let user = response.data.user;

@@ -1,17 +1,25 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-4 font-weight-bold">User</div>
-      <div class="col-lg-8 text-right">username</div>
+      <div class="col-4 font-weight-bold">
+        User
+        </div>
+      <div class="col-8 text-right">
+        {{user.username}}
+        </div>
     </div>
     <div class="row">
-      <div class="col-lg-4 font-weight-bold">Email</div>
-      <div class="col-lg-8 text-right">email</div>
+      <div class="col-4 font-weight-bold">
+        Email
+        </div>
+      <div class="col-8 text-right">
+        {{user.email}}
+        </div>
     </div>
     <hr class="my-4">
     <div class="row">
       <div class="col-lg-12">
-        <b-button variant="danger">
+        <b-button @click="Logout" variant="danger">
           <b-icon-unlock></b-icon-unlock>
         </b-button>
       </div>
@@ -20,15 +28,27 @@
 </template>
 
 <script>
-
+import {deleteJwt} from "@/utils/session_util";
+import {removeUser, getUser} from "@/utils/user_util"
+ 
 export default {
   name: 'Profile',
   components: {},
   data: function () {
-    return {};
+    return {
+      user:{}
+    };
   },
-  methods: {},
+  methods: {
+    Logout() {
+      removeUser();
+      deleteJwt();
+      this.$router.push('/login');
+    }
+  },
   mounted() {
+    this.user = getUser();
+    console.log(this.user);
   }
 }
 </script>

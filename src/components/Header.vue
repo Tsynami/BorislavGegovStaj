@@ -16,16 +16,11 @@
             Cart
           </b-button>
         </b-nav-item>
-        <b-nav-item>
-          <b-button pill to="/login" right>
-            <b-icon-person-fill></b-icon-person-fill>
-            Login
-          </b-button>
-        </b-nav-item>
       </b-nav>
       <b-nav>
         <b-button pill id="profile-btn">
-          <b-icon-person></b-icon-person>
+          <b-icon-person-fill></b-icon-person-fill>
+          Profile
         </b-button>
         <b-popover
             target="profile-btn"
@@ -58,4 +53,5 @@ export default {
 </script>
 
 <style>
+
 </style>
