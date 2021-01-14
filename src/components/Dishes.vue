@@ -8,12 +8,26 @@
     <div class="row mb-4">
       <div class="col-12">
         <b-jumbotron>
-          <b-img :src="serverUrl + restaurant.image.url" fluid alt="Responsive image"></b-img>
-          <template #header>{{ restaurant.name }}
-
-          </template>
-          <template #lead>
-            {{ restaurant.description }}
+          <template #header>
+            <div class="row">
+              <div class="col-4">
+                <b-img
+                    thumbnail
+                    rounded="circle"
+                    fluid
+                    v-if="restaurant.image"
+                    :src="serverUrl + restaurant.image.formats.small.url"
+                    alt="Responsive image"></b-img>
+              </div>
+              <div class="col-8">
+                <div class="row" v-if="restaurant.id">
+                  {{ restaurant.name }}
+                </div>
+                <div class="row" style="font-size: 2rem">
+                  {{ restaurant.description }}
+                </div>
+              </div>
+            </div>
           </template>
         </b-jumbotron>
       </div>
@@ -24,7 +38,7 @@
           <li v-for="dish in dishes" v-bind:key="dish.id">
             <b-card
                 :title="dish.name"
-                :img-src="serverUrl + dish.image.url"
+                :img-src="serverUrl + dish.image.formats.small.url"
                 img-alt="Image"
                 img-top
                 tag="article"
@@ -33,8 +47,6 @@
             >
               <b-card-text>
                 {{ dish.description }}
-                <div></div>
-                Weight: {{ dish.weight }}g
               </b-card-text>
 
               <div>
@@ -45,7 +57,7 @@
                     </b-button>
                   </div>
                   <div class="col-6 text-right align-self-center">
-                    <span class="">{{dish.price}} Lv</span>
+                    <span class="">{{ dish.price }} Lv</span>
                   </div>
                 </div>
               </div>
@@ -59,10 +71,10 @@
 
 <script>
 import axios from "axios";
-import {config} from "../config/config";
-import {addCartItem} from "../utils/cart_util";
-import BasicComponent from "./BasicComponent";
-import BaseMixin from "../mixins/BaseMixin";
+import {config} from "@/config/config";
+import BasicComponent from "@/components/BasicComponent";
+import BaseMixin from "@/mixins/BaseMixin";
+import {addCartItem} from "@/utils/cart_util";
 
 export default {
   name: 'Dishes',
@@ -74,8 +86,7 @@ export default {
       restaurant: Object,
       dishes: Array,
       serverUrl: String,
-      searchTerm: "",
-      hasOrder: Function
+      searchTerm: ""
     };
   },
   methods: {
@@ -118,6 +129,7 @@ export default {
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;

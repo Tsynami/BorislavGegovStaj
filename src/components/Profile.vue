@@ -1,48 +1,37 @@
 <template>
-  <div class="card" style="width: 15rem;">
-    <div class="card-body">
-      <h5 class="card-title">Profile</h5>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 font-weight-bold">User</div>
+      <div class="col-lg-8 text-right">username</div>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Username:
-        {{ user.username }}
-      </li>
-      <li class="list-group-item">Email:
-        {{ user.email}}
-      </li>
-    </ul>
-    <div class="card-body">
-      <b-button @click="logout" variant="danger">
-        Logout
-      </b-button>
+    <div class="row">
+      <div class="col-lg-4 font-weight-bold">Email</div>
+      <div class="col-lg-8 text-right">email</div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col-lg-12">
+        <b-button variant="danger">
+          <b-icon-unlock></b-icon-unlock>
+        </b-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {deleteJwt} from "../utils/session_util";
-import {removeUser, getUser} from "../utils/user_util";
 
 export default {
-  data() {
-    return {
-      user: {}
-    }
+  name: 'Profile',
+  components: {},
+  data: function () {
+    return {};
   },
-  watch: {},
+  methods: {},
   mounted() {
-    this.user = getUser();
-  },
-  methods: {
-    logout() {
-      deleteJwt();
-      removeUser();
-      this.$router.push('/login');
-    }
   }
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>
