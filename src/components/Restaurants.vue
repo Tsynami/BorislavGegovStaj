@@ -29,12 +29,11 @@
     <div class="row mb-4">
       <div class="col-12">
         <ul class="list-unstyled" >
-          <li v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-
+          <li class="mr-3" v-for="restaurant in restaurants" v-bind:key="restaurant.id" >
             <b-card
 
                 :title=restaurant.name
-                :img-src='serverUrl + restaurant.image.url'
+                :img-src='serverUrl + restaurant.image.url' img-height="550" img-width="200"
                 img-alt= "Image"
                 img-top
                 tag="article"
@@ -47,7 +46,7 @@
                 <br> Адрес: {{restaurant.address}}
               </b-card-text>
 
-              <b-button href="/dishes" variant="primary">Ястия</b-button>
+              <b-button :to="'/dishes/'+restaurant.id" >Dishes</b-button>
             </b-card>
           </li>
         </ul>
@@ -58,15 +57,18 @@
 
 <script>
 
-import BasicComponent from "./BasicComponent";
-import BaseMixin from "../mixins/BaseMixin";
-import {config} from "@/config/config";
 import axios from "axios";
+import {config} from "@/config/config";
+import BasicComponent from "@/components/BasicComponent";
+import BaseMixin from "@/mixins/BaseMixin";
+import {getJwt} from "@/utils/session_util";
+import {getHeaders} from "@/utils/axios_util"
 
 export default {
   name: 'Restaurant',
   components: {BasicComponent},
   mixins: [BaseMixin],
+
   data: function () {
     return {
       restaurants: Array,
@@ -83,17 +85,19 @@ export default {
       if(term){
         url += '?name_contains=' + term;
       }
+      const jwt = getJwt();
+      let axiosOptions = getHeaders(jwt);
       this.isLoading = true;
-      axios.get(url)
+      axios.get(url, axiosOptions)
           .then(function (response) {
             me.restaurants = response.data;
             me.isLoading = false;
           })
           .catch(function (error) {
-            console.error(error);
-            me.showError('Error loading!');
+            console.log(error);
             me.isLoading = false;
-          });
+            me.showError('Error loading!');
+          })
     }
   },
   mounted() {
