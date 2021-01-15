@@ -77,6 +77,7 @@ import BaseMixin from "@/mixins/BaseMixin";
 import {addCartItem} from "@/utils/cart_util";
 import {getJwt} from "../utils/session_util";
 import {getHeaders} from "../utils/axios_util";
+import {EventBus} from "@/utils/event_bus";
 
 export default {
   name: 'Dishes',
@@ -118,6 +119,7 @@ export default {
     },
     addToCart(dish) {
       addCartItem(dish);
+      EventBus.$emit('cart-item-event');
     }
   },
   watch: {

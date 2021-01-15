@@ -14,7 +14,7 @@
         <b-nav-item to="/cart" right>
           <b-button pill>
             <b-icon-cart></b-icon-cart>
-            <b-badge></b-badge>
+            <b-badge>{{countCardItems}}</b-badge>
           </b-button>
         </b-nav-item>
       </b-nav>
@@ -44,6 +44,9 @@ export default {
   components: {Profile},
   data: function () {
     return {};
+  },
+  props:{
+    countCardItems: Number
   },
   methods: {},
   mounted() {
