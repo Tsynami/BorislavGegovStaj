@@ -63,6 +63,8 @@ import {config} from "../config/config";
 import {addCartItem} from "../utils/cart_util";
 import BasicComponent from "./BasicComponent";
 import BaseMixin from "../mixins/BaseMixin";
+import {getJwt} from "../utils/session_util";
+import {getHeaders} from "../utils/axios_util";
 
 export default {
   name: 'Dishes',
@@ -89,17 +91,19 @@ export default {
         url += "?name_contains=" + name;
       }
       this.isLoading = true;
-      axios.get(url)
+      const jwt = getJwt();
+      const axiosOptions = getHeaders(jwt);
+      axios.get(url, axiosOptions)
           .then(function (response) {
-            me.restaurant = response.data
+            me.restaurant = response.data;
             me.dishes = me.restaurant.dishes;
             me.isLoading = false;
           })
           .catch(function (error) {
-            console.log(error);
-            me.isLoading = false;
+            console.error(error);
             me.showError('Error loading!');
-          })
+            me.isLoading = false;
+          });
     },
     addToCart(dish) {
       addCartItem(dish);

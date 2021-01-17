@@ -9,7 +9,7 @@
       <div class="col-12">
         <b-jumbotron v-if="order">
           <template #header>
-            <b-icon-cart></b-icon-cart>
+            <b-icon-card-checklist></b-icon-card-checklist>
             Shopping cart
           </template>
           <template #lead>
@@ -37,14 +37,14 @@
             </div>
           </template>
           <hr class="my-4">
-          <b-button @click="placeOrder" v-if="!order.id" variant="danger" >Finish order</b-button>
+          <b-button v-if="!order.id" variant="danger" @click="placeOrder">Finish order</b-button>
           <div v-else>
             Order status: {{ order.status }}
           </div>
         </b-jumbotron>
         <b-jumbotron v-else>
           <template #header>
-            <b-icon-cart></b-icon-cart>
+            <b-icon-card-checklist></b-icon-card-checklist>
             Shopping cart
           </template>
           <template #lead>
@@ -116,7 +116,7 @@ import {getJwt} from "../utils/session_util";
 import {getHeaders} from "../utils/axios_util";
 import {getUser} from "../utils/user_util";
 import {getOrder} from "../utils/order_util";
-import {hasOrder} from "../utils/order_util";
+import {hasOrder, saveOrder} from "../utils/order_util";
 
 export default {
   name: 'Cart',
@@ -154,6 +154,7 @@ export default {
       order.total_price = this.getTotalPrice(order);
       return order;
     },
+
     removeFromCart(orderedDish) {
 
       if (this.order.id) {
@@ -173,6 +174,22 @@ export default {
       dish.full_price = dish.count * dish.dish.price;
       this.order.total_price = this.getTotalPrice(this.order);
     },
+    loadOrder(id) {
+      let me = this;
+      let url = config.serverUrl + "/orders/" + id;
+      const jwt = getJwt();
+      let axiosOptions = getHeaders(jwt);
+      axios.get(url, axiosOptions)
+          .then(function (response) {
+            me.order = response.data;
+            me.isLoading = false;
+          })
+          .catch(function (error) {
+            console.error(error);
+            me.isLoading = false;
+            me.showError('Error loading!');
+          })
+    },
     placeOrder() {
       if (this.order && this.order.id) {
         me.showError('You have already ordered!');
@@ -183,8 +200,18 @@ export default {
       this.isLoading = false;
       const jwt = getJwt();
       let axiosOptions = getHeaders(jwt);
-      axios.post(url, this.order, axiosOptions);
-    },
+      axios.post(url, this.order, axiosOptions)
+          .then(function (response) {
+            saveOrder(response.data);
+            this.order = response.data;
+            me.isLoading = false;
+          })
+          .catch(function (error) {
+            console.log(error);
+            me.isLoading = false;
+            me.showError('Error loading!');
+          });
+        },
     getTotalPrice(order) {
       let totalPrice = 0;
       for (const item of order.dishes) {
@@ -204,6 +231,9 @@ export default {
     this.order = getOrder();
     if (!hasOrder()) {
       this.getItems();
+    }
+    else{
+      this.loadOrder(this.order.id);
     }
   }
 }

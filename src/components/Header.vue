@@ -2,20 +2,20 @@
   <b-navbar toggleable="lg" :sticky="true" variant="dark" type="dark" class="shadow">
     <b-nav>
       <b-navbar-brand>
-        <b-button class="btn btn-outline-info" pill to="/">
+        <b-button class="btn btn-outline-danger" squared to="/">
           <b-icon-shop></b-icon-shop>
         </b-button>
       </b-navbar-brand>
     </b-nav>
     <b-nav class="ml-auto">
       <b-nav-item to="/cart" right>
-        <b-button class="btn btn-outline-info" pill>
+        <b-button class="btn btn-outline-danger" squared>
           <b-icon-card-checklist></b-icon-card-checklist>
           <b-badge>{{ countCardItems }}</b-badge>
         </b-button>
       </b-nav-item>
       <b-nav-item>
-        <b-button class="btn btn-outline-info" pill id="profile-btn">
+        <b-button class="btn btn-outline-danger" squared id="profile-btn">
           <b-icon-person></b-icon-person>
         </b-button>
         <b-popover triggers="focus" placement="bottom" target="profile-btn">
