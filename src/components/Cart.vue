@@ -212,7 +212,7 @@ export default {
       axios.post(url, this.order, axiosOptions)
           .then(function (response) {
             saveOrder(response.data);
-            this.order = response.data;
+            me.order = response.data;
             me.isLoading = false;
           })
           .catch(function (error) {

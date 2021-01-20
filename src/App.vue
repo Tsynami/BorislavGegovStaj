@@ -39,6 +39,7 @@ export default {
     EventBus.$on('cart-item-event', () => {
       this.countCardItems = getCountCartItems();
     })
+    this.isLoggedIn = isLoggedIn();
   }
 }
 </script>
