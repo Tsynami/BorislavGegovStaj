@@ -4,7 +4,7 @@
       <b-nav>
         <b-navbar-brand>
           <b-button pill to="/">
-            <b-icon-shop></b-icon-shop>
+            <b-icon-house-fill></b-icon-house-fill>
             Home
           </b-button>
         </b-navbar-brand>
@@ -13,7 +13,7 @@
         <b-nav-item>
           <b-button pill to="/cart" right>
             <b-icon-cart-fill></b-icon-cart-fill>
-            Cart
+            <b-badge>{{countCardItems}}</b-badge> Cart
           </b-button>
         </b-nav-item>
       </b-nav>
@@ -43,6 +43,9 @@ import Profile from "./Profile";
 export default {
   name: 'Header',
   components: {Profile},
+  props:{
+    countCardItems: Number
+  },
   data: function () {
     return {};
   },

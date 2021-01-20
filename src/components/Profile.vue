@@ -30,6 +30,7 @@
 <script>
 import {deleteJwt} from "@/utils/session_util";
 import {removeUser, getUser} from "@/utils/user_util"
+import {EventBus} from '../utils/event_bus'
  
 export default {
   name: 'Profile',
@@ -43,6 +44,7 @@ export default {
     Logout() {
       removeUser();
       deleteJwt();
+      EventBus.$emit('loggedIn')
       this.$router.push('/login');
     }
   },

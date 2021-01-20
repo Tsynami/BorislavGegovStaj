@@ -16,7 +16,7 @@
                     rounded="circle"
                     fluid
                     v-if="restaurant.image"
-                    :src="serverUrl + restaurant.image.formats.small.url"
+                    :src="serverUrl + restaurant.image.url"
                     alt="Responsive image"></b-img>
               </div>
               <div class="col-8">
@@ -55,12 +55,12 @@
               <div>
                 <div class="row">
                   <div class="col-6">
-                    <b-button @click="addToCart(dish)">
+                    <b-button v-if="!hasOrder" @click="addToCart(dish)">
                       <b-icon-cart></b-icon-cart>
                     </b-button>
                   </div>
                   <div class="col-6 text-right align-self-center">
-                    <span class="">{{ dish.price }} Lv</span>
+                    <span class="">{{ dish.price.toFixed(2)}} Lv</span>
                   </div>
                 </div>
               </div>
@@ -73,11 +73,20 @@
 </template>
 
 <script>
+// Components
+import BasicComponent from "@/components/BasicComponent";
+
+// Utils
+import {addCartItem, findCartItem} from "@/utils/cart_util";
+import {getJwt} from "@/utils/session_util";
+import {getHeaders} from '../utils/axios_util';
+import {EventBus} from '../utils/event_bus';
+import {hasOrder} from '../utils/order_util';
+
+// Misc.
 import axios from "axios";
 import {config} from "@/config/config";
-import BasicComponent from "@/components/BasicComponent";
 import BaseMixin from "@/mixins/BaseMixin";
-import {addCartItem} from "@/utils/cart_util";
 
 export default {
   name: 'Dishes',
@@ -102,8 +111,10 @@ export default {
       if (name) {
         url += "?name_contains=" + name;
       }
+      const jwt = getJwt();
+      let axiosAuth = getHeaders(jwt);
       this.isLoading = true;
-      axios.get(url)
+      axios.get(url, axiosAuth)
           .then(function (response) {
             me.restaurant = response.data
             me.dishes = me.restaurant.dishes;
@@ -116,7 +127,13 @@ export default {
           })
     },
     addToCart(dish) {
-      addCartItem(dish);
+      if(!findCartItem(dish)){
+        addCartItem(dish);
+        EventBus.$emit('update-cart-item');
+      }
+      else{
+        this.showError('Dish is already in cart!');
+      }
     }
   },
   watch: {
@@ -128,6 +145,8 @@ export default {
   mounted() {
     this.serverUrl = config.serverUrl;
     this.loadDishes();
+    this.hasOrder = hasOrder();
+    this.findCartItem = findCartItem();
   }
 }
 </script>

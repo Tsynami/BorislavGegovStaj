@@ -48,13 +48,21 @@
 </template>
 
 <script>
-import axios from "axios";
-import {config} from "@/config/config";
-import BasicComponent from "@/components/BasicComponent";
-import BaseMixin from "@/mixins/BaseMixin";
-import {saveJwt} from "@/utils/session_util"
-import {saveUser} from "@/utils/user_util";
-import {email, password, minLength, required} from "vuelidate/lib/validators";
+
+// Components
+import BasicComponent from '../components/BasicComponent'
+
+// Utils
+import {saveJwt} from '../utils/session_util'
+import {saveUser} from '../utils/user_util'
+import {EventBus} from '../utils/event_bus'
+
+// Misc.
+import axios from 'axios';
+import {config} from '../config/config';
+import BaseMixin from '../mixins/BaseMixin';
+import {email, password, minLength, required} from 'vuelidate/lib/validators'
+
 export default {
   name: 'Login',
   components: {BasicComponent},
@@ -79,6 +87,7 @@ export default {
             saveJwt(jwt);
             saveUser(user);
             me.isLoading = false;
+            EventBus.$emit('loggedIn')
             me.$router.push('/');
           })
           .catch(function() {

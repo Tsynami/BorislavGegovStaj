@@ -1,11 +1,11 @@
 <template>
   <BasicComponent :loading="isLoading">
-    <div class="row mb-1">
+    <div class="row mb-1"> <!--- Breadcrumb --->
       <div class="col-12">
         <b-breadcrumb :items="[{text: 'Shopping cart', href:'/cart'}]"></b-breadcrumb>
       </div>
     </div>
-    <div class="row mb-4">
+    <div class="row mb-4"> <!--- Shopping cart --->
       <div class="col-12">
         <b-jumbotron v-if="order">
           <template #header>
@@ -25,7 +25,7 @@
                 <div class="row" v-for="dish in order.dishes" v-bind:key="dish.dish.id">
                   <div class="col-4">{{ dish.dish.name }}</div>
                   <div class="col-4 text">{{ dish.count }}</div>
-                  <div class="col-4">{{ dish.full_price }} Lv</div>
+                  <div class="col-4">{{ dish.full_price.toFixed(2) }} Lv</div>
                 </div>
                 <hr class="my-4">
                 <div class="row" style="font-weight: bold">
@@ -37,7 +37,7 @@
             </div>
           </template>
           <hr class="my-4">
-          <b-button v-if="!order.id" variant="danger" >Finish order</b-button>
+          <b-button v-if="!order.id" variant="danger" @click="makeOrder">Finish order</b-button>
           <div v-else>
             Order status: {{ order.status }}
           </div>
@@ -53,7 +53,7 @@
         </b-jumbotron>
       </div>
     </div>
-    <div class="row mb-4" v-if="order">
+    <div class="row mb-4" v-if="order"> <!--- Dishes in Cart --->
       <div class="col-12">
         <ul>
           <li v-for="dish in order.dishes" v-bind:key="dish.dish.id">
@@ -77,7 +77,7 @@
                     </b-button>
                   </div>
                   <div class="col-4 text-right align-self-center">
-                    <span class="">{{ dish.full_price }} Lv</span>
+                    <span class="">{{ dish.full_price.toFixed(2) }} Lv</span>
                   </div>
                   <div class="col-4">
                     <b-form-input
@@ -91,7 +91,7 @@
                 </div>
                 <div class="row" v-else>
                   <div class="col-6">
-                    <span class="">Price: {{ dish.full_price }} Lv</span>
+                    <span class="">Price: {{ dish.full_price.toFixed(2) }} Lv</span>
                   </div>
                   <div class="col-6 text-right">
                     <span>Ordered: {{ dish.count }}</span>
@@ -107,12 +107,22 @@
 </template>
  
 <script>
-import axios from "axios";
-import {config} from "../config/config";
-import {getCartItems, removeCartItem} from "../utils/cart_util";
+// Components
 import BasicComponent from "./BasicComponent";
+
+// Utils
+import {clearCart, getCartItems, removeCartItem} from "../utils/cart_util";
+import {getOrder, hasOrder, saveOrder, removeOrder} from "../utils/order_util";
+import {getUser} from "../utils/user_util";
+import {getJwt} from "../utils/session_util";
+import {EventBus} from '../utils/event_bus';
+import {getHeaders} from '../utils/axios_util';
+
+// Misc.
+import {config} from "../config/config";
+import axios from "axios";
 import BaseMixin from "../mixins/BaseMixin";
- 
+
 export default {
   name: 'Cart',
   components: {BasicComponent},
@@ -130,9 +140,18 @@ export default {
     loadOrder(id) {
       let me = this;
       let url = config.serverUrl + "/orders/" + id;
-      axios.get(url)
+      const jwt = getJwt();
+      let axiosAuth = getHeaders(jwt);
+      axios.get(url, axiosAuth)
           .then(function (response) {
+            if(response.data.status != 'Ready' && response.data.status != 'Paid'){
               me.order = response.data;
+              me.isLoading = false;
+            }     
+            else{
+              removeOrder();
+              clearCart();
+            }      
           })
           .catch(function (error) {
             console.log(error);
@@ -149,12 +168,14 @@ export default {
       if (!this.cartItems || this.cartItems.length === 0) {
         return;
       }
-      let dishes = this.cartItems.map((item) => {
+      let orderedDishes = this.cartItems.map((item) => {
         return {"dish": item, "full_price": item.price, count: 1}
       });
+      let user = getUser();
       let order = {
         status: "Pending",
-        dishes: dishes,
+        dishes: orderedDishes,
+        users_permissions_user: user
       };
       order.total_price = this.totalPrice(order);
       return order;
@@ -163,6 +184,7 @@ export default {
       removeCartItem(dish.dish);
       this.cartItems = getCartItems();
       this.createOrder();
+      EventBus.$emit('update-cart-item');
     },
     updateCartItemCount(dish) {
       dish.count = Number.parseInt(dish.count);
@@ -175,6 +197,24 @@ export default {
         totalPrice += item.full_price;
       }
       return totalPrice.toFixed(2);
+    },
+    makeOrder() {
+      let me = this;
+      let url = config.serverUrl + "/orders";
+      this.isLoading = true;
+      const jwt = getJwt();
+      let axiosAuth = getHeaders(jwt);
+      axios.post(url, this.order, axiosAuth)
+        .then(function (response){
+          me.order = response.data;
+          saveOrder(response.data);
+          me.isLoading = false;
+        })
+        .catch(function (error){
+          console.log(error);
+          me.isLoading = false;
+          me.showError('Error! Please try again.');
+        })
     }
   },
   watch: {
@@ -185,12 +225,15 @@ export default {
   },
   mounted() {
     this.serverUrl = config.serverUrl;
-    if (this.order && this.order.id) {
+    this.order = getOrder();
+    if (hasOrder()) {
       this.loadOrder(this.order.id);
     } else {
       this.getItems();
     }
- 
+    EventBus.$on('update-cart-item', ()=>{
+      this.getItems();
+    })
   }
 }
 </script>

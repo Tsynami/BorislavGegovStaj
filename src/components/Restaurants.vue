@@ -90,8 +90,8 @@ export default {
       }
       this.isLoading = true;
       const jwt = getJwt();
-      const axiosOptions = getHeaders(jwt);
-      axios.get(url, axiosOptions)
+      const axiosAuth = getHeaders(jwt);
+      axios.get(url, axiosAuth)
           .then(function (response) {
             me.restaurants = response.data;
             me.isLoading = false;
