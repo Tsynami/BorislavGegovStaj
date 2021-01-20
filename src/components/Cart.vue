@@ -109,14 +109,14 @@
 <script>
 import axios from "axios";
 import {config} from "../config/config";
-import {getCartItems, removeCartItem} from "../utils/cart_util";
+import {clearCart, getCartItems, removeCartItem} from "../utils/cart_util";
 import BasicComponent from "./BasicComponent";
 import BaseMixin from "../mixins/BaseMixin";
 import {getJwt} from "../utils/session_util";
 import {getHeaders} from "../utils/axios_util";
 import {getUser} from "../utils/user_util";
-import {getOrder} from "../utils/order_util";
-import {hasOrder, saveOrder} from "../utils/order_util";
+import {saveOrder, getOrder, removeOrder} from "../utils/order_util"
+import {EventBus} from "../utils/event_bus";
 
 export default {
   name: 'Cart',
@@ -164,6 +164,7 @@ export default {
       removeCartItem(orderedDish.dish);
       this.cartItems = getCartItems();
       this.constructOrderFromCartItems();
+      EventBus.$emit("cart-item-event");
     },
     updateCartItemCount(dish) {
       if (this.order.id) {
@@ -181,11 +182,19 @@ export default {
       let axiosOptions = getHeaders(jwt);
       axios.get(url, axiosOptions)
           .then(function (response) {
-            me.order = response.data;
+            if (response.data.status !== 'Paid' && response.data.status !== 'Ready') {
+              me.order = response.data;
+            } else {
+              me.showError('This order is no longer active!');
+              me.order = null;
+              removeOrder();
+              me.cartItems = [];
+              clearCart();
+            }
             me.isLoading = false;
           })
           .catch(function (error) {
-            console.error(error);
+            console.log(error);
             me.isLoading = false;
             me.showError('Error loading!');
           })
@@ -210,8 +219,8 @@ export default {
             console.log(error);
             me.isLoading = false;
             me.showError('Error loading!');
-          });
-        },
+          })
+    },
     getTotalPrice(order) {
       let totalPrice = 0;
       for (const item of order.dishes) {
@@ -229,12 +238,16 @@ export default {
   mounted() {
     this.serverUrl = config.serverUrl;
     this.order = getOrder();
-    if (!hasOrder()) {
+    if (this.order && this.order.id) {
+      this.loadOrder(this.order.id);
+    } else {
       this.getItems();
     }
-    else{
-      this.loadOrder(this.order.id);
-    }
+    EventBus.$on('cart-item-event', () => {
+      if (!this.order || !this.order.id) {
+        this.getItems();
+      }
+    });
   }
 }
 

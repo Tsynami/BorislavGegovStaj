@@ -41,6 +41,8 @@ export default {
     return {}
   },
   watch: {},
-  methods: {}
+  methods: {},
+  mounted() {
+  }
 }
 </script>

@@ -4,8 +4,8 @@
       <div class="row justify-content-center">
         <div class="row">
           <div class="col-13">
-            <div class="card" style="width: 20rem;">
-              <div class="card-header">
+            <div class="card text-white bg-secondary mb-3" type="dark" style="width: 20rem;">
+              <div class="card-header" >
                 Login
               </div>
               <ul class="list-group list-group-flush">
@@ -41,6 +41,7 @@ import BaseMixin from "../mixins/BaseMixin";
 import {saveJwt} from "../utils/session_util"
 import {saveUser} from "../utils/user_util";
 import {email, password, minLength, required} from "vuelidate/lib/validators";
+import {EventBus} from "../utils/event_bus";
 export default {
   name: 'Login',
   components: {BasicComponent},
@@ -66,6 +67,7 @@ export default {
             saveUser(user);
             me.isLoading = false;
             me.$router.push('/');
+            EventBus.$emit("reload-event");
           })
           .catch(function() {
 

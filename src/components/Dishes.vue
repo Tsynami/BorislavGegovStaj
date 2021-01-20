@@ -10,7 +10,6 @@
         <b-jumbotron>
           <b-img :src="serverUrl + restaurant.image.url" fluid alt="Responsive image"></b-img>
           <template #header>{{ restaurant.name }}
-
           </template>
           <template #lead>
             {{ restaurant.description }}
@@ -36,11 +35,10 @@
                 <div></div>
                 Weight: {{ dish.weight }}g
               </b-card-text>
-
               <div>
                 <div class="row">
                   <div class="col-6">
-                    <b-button @click="addToCart(dish)">
+                    <b-button v-if="!hasOrder" @click="addToCart(dish)">
                       <b-icon-cart></b-icon-cart>
                     </b-button>
                   </div>
@@ -65,6 +63,8 @@ import BasicComponent from "./BasicComponent";
 import BaseMixin from "../mixins/BaseMixin";
 import {getJwt} from "../utils/session_util";
 import {getHeaders} from "../utils/axios_util";
+import {EventBus} from "../utils/event_bus";
+import {hasOrder} from "../utils/order_util";
 
 export default {
   name: 'Dishes',
@@ -106,7 +106,11 @@ export default {
           });
     },
     addToCart(dish) {
+      if(this.hasOrder){
+        return;
+      }
       addCartItem(dish);
+      EventBus.$emit('cart-item-event');
     }
   },
   watch: {
@@ -118,6 +122,7 @@ export default {
   mounted() {
     this.serverUrl = config.serverUrl;
     this.searchDishes();
+    this.hasOrder = hasOrder();
   }
 }
 </script>

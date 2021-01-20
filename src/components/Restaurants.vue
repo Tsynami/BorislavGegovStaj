@@ -38,6 +38,7 @@
                 :title= restaurant.name
                 class="font-weight-bold"
             >
+
               <b-card-text>
                 {{ restaurant.description }}
                 <div></div>
