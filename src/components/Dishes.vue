@@ -58,7 +58,7 @@
 <script>
 import axios from "axios";
 import {config} from "../config/config";
-import {addCartItem, getCartItems} from "../utils/cart_util";
+import {addCartItem} from "../utils/cart_util";
 import BasicComponent from "./BasicComponent";
 import BaseMixin from "../mixins/BaseMixin";
 import {getJwt} from "../utils/session_util";
@@ -106,13 +106,8 @@ export default {
           });
     },
     addToCart(dish) {
-      let me = this;
       if(this.hasOrder){
         return;
-      }
-      if(dish === getCartItems())
-      {
-        return me.showError('You have already ordered!');
       }
       addCartItem(dish);
       EventBus.$emit('cart-item-event');
