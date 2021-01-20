@@ -146,7 +146,6 @@ export default {
     this.serverUrl = config.serverUrl;
     this.loadDishes();
     this.hasOrder = hasOrder();
-    this.findCartItem = findCartItem();
   }
 }
 </script>
