@@ -52,4 +52,7 @@ export default {
 .popover{
   width: 500px;
 }
+div{
+  margin: 0px;
+}
 </style>

@@ -2,7 +2,7 @@
   <BasicComponent :loading="isLoading">
     <div class="row mb-1">
       <div class="col-12">
-        <b-breadcrumb :items="[{text: 'Restaurants', href: '/'}]"></b-breadcrumb>
+        <b-breadcrumb :items="[{text: 'Restaurants', href: '/'}]" style=""></b-breadcrumb>
       </div>
     </div>
     <div class="row mb-4">
@@ -10,11 +10,10 @@
         <h3>Restaurants</h3>
       </div>
       <img>
-
     </div>
     <div class="row mb-4">
       <div class="col-12">
-        <b-form @submit.prevent="search">
+        <b-form @submit.prevent="search" style="color: black">
           <b-form-group>
             <b-input-group>
               <b-form-input v-model="searchTerm" placeholder="Search"></b-form-input>
@@ -37,8 +36,7 @@
                 :img-src="serverUrl + restaurant.image.formats.thumbnail.url" img-height="200" img-width="100"
                 img-alt="ERROR"
                 img-top
-                tag="article"
-                style="max-width: 20rem; min-height: 400px"
+                style="min-width: 20rem; max-width: 20rem; min-height: 400px"
                 class="mb-2"
             >
               <b-card-text>
@@ -49,7 +47,7 @@
                 {{restaurant.address}}
               </b-card-text>
 
-              <b-button :to="'/dishes/'+restaurant.id" style="color: white">Dishes</b-button>
+              <b-button :to="'/dishes/'+restaurant.id">Dishes</b-button>
 
             </b-card>
           </li>
@@ -67,6 +65,7 @@ import {config} from "@/config/config";
 import axios from "axios";
 import {getJwt} from "../utils/session_util";
 import {getHeaders} from "../utils/axios_util";
+import '../assets/sass/main.scss'
 
 export default {
   name: 'Restaurants',
@@ -110,6 +109,9 @@ export default {
 </script>
 
 <style scoped>
+  b-breadcrumb{
+    background: #0f3460;
+  }
   li{
     display: inline-block;
     margin: 0 10px;

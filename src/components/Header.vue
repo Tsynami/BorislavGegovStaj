@@ -1,6 +1,6 @@
 <template>
   <header>
-    <b-navbar toggleable="lg" :sticky="true" variant="dark" type="dark" class="shadow">
+    <b-navbar toggleable="lg" :sticky="true" style="">
       <b-nav>
         <b-navbar-brand>
           <b-button pill to="/">
@@ -38,7 +38,8 @@
 
 <script>
 
-import Profile from "./Profile";
+import Profile from './Profile'
+import '../assets/sass/main.scss'
 
 export default {
   name: 'Header',

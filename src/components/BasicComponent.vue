@@ -1,5 +1,5 @@
 <template>
-  <b-overlay :show="loading">
+  <b-overlay :show="loading" bg-color="#16213e">
     <div class="container-fluid">
       <slot></slot>
     </div>

@@ -4,8 +4,7 @@
       <div class="row justify-content-center" >
         <b-card
             style="width: 30%"
-            class="shadow"
-            bg-variant="light">
+            class="shadow">
           <template #header>
             <div style="text-align:center">
               Sign in
@@ -62,6 +61,7 @@ import axios from 'axios';
 import {config} from '../config/config';
 import BaseMixin from '../mixins/BaseMixin';
 import {email, password, minLength, required} from 'vuelidate/lib/validators'
+import '../assets/sass/main.scss'
 
 export default {
   name: 'Login',

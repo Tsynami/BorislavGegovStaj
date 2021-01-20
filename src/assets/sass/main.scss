@@ -1,8 +1,51 @@
+
+body{
+  color: white !important;
+  background-color:#16213e !important;
+}
+
 .card-img-top {
   max-height: 180px;
 }
 
+.card{
+  color: white;
+  background-color: #0f3460 !important;
+}
+
+.btn{
+  background: #e94560 !important;
+  color: white !important;
+}
+
+.badge{
+  background: #e94560 !important;
+  color: white !important;
+}
+
 .card-text {
   height: 60px;
+  color: white;
   overflow-y: auto;
+}
+
+.breadcrumb{
+  color: white;
+  background-color: #0f3460 !important;
+}
+
+.jumbotron{
+  background-color:#0f3460 !important;
+}
+
+.navbar{
+  background: #1a1a2e;
+}
+
+.popover{
+  background-color:#0f3460 !important;
+}
+
+.popover-header{
+  background-color:#0f3460 !important;
 }

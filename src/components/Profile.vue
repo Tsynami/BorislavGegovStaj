@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" style="color: white">
     <div class="row">
       <div class="col-4 font-weight-bold">
         User
@@ -31,6 +31,7 @@
 import {deleteJwt} from "@/utils/session_util";
 import {removeUser, getUser} from "@/utils/user_util"
 import {EventBus} from '../utils/event_bus'
+import '../assets/sass/main.scss'
  
 export default {
   name: 'Profile',
