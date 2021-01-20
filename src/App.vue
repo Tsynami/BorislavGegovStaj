@@ -21,6 +21,7 @@ import {getCountCartItems} from "./utils/cart_util";
 import {isLoggedIn} from "./utils/session_util";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import {EventBus} from "./utils/event_bus";
 
 
 export default {
@@ -36,6 +37,12 @@ export default {
   mounted() {
     this.countCardItems = getCountCartItems();
     this.isLoggedIn = isLoggedIn();
+    EventBus.$on('cart-item-event', () => {
+      this.countCardItems = getCountCartItems();
+    });
+    EventBus.$on('reload-event', () => {
+      this.isLoggedIn = isLoggedIn();
+    })
   }
 }
 </script>

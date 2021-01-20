@@ -56,6 +56,7 @@ import BasicComponent from "@/components/BasicComponent";
 import BaseMixin from "@/mixins/BaseMixin";
 import {saveJwt} from "@/utils/session_util"
 import {saveUser} from "@/utils/user_util";
+import {EventBus} from "@/utils/event_bus";
 
 export default {
   name: 'Login',
@@ -82,6 +83,7 @@ export default {
             saveUser(user);
             me.isLoading = false;
             me.$router.push('/');
+            EventBus.$emit("reload-event");
           })
           .catch(function (error) {
             let errorMessage = (
@@ -96,7 +98,9 @@ export default {
             me.isLoading = false;
             me.showError(errorMessage);
           })
+
     }
+
   }
 }
 </script>

@@ -30,6 +30,7 @@
 <script>
 import {deleteJwt} from "@/utils/session_util";
 import {removeUser, getUser} from "@/utils/user_util";
+import {EventBus} from "@/utils/event_bus";
 
 export default {
   data() {
@@ -46,6 +47,7 @@ export default {
       deleteJwt();
       removeUser();
       this.$router.push('/login');
+      EventBus.$emit("reload-event");
     }
   }
 }

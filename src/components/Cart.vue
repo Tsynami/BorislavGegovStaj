@@ -110,6 +110,7 @@
 import axios from "axios";
 import {config} from "@/config/config";
 import {getCartItems, removeCartItem, clearCart} from "@/utils/cart_util";
+import {EventBus} from "@/utils/event_bus";
 import BasicComponent from "@/components/BasicComponent";
 import BaseMixin from "@/mixins/BaseMixin";
 import {getJwt} from "@/utils/session_util";
@@ -153,6 +154,7 @@ export default {
       return order;
     },
     removeFromCart(orderedDish) {
+
       if (this.order.id) {
         this.showError('You have already ordered!');
         return;
@@ -160,7 +162,7 @@ export default {
       removeCartItem(orderedDish.dish);
       this.cartItems = getCartItems();
       this.constructOrderFromCartItems();
-
+      EventBus.$emit("cart-item-event");
     },
     updateCartItemCount(dish) {
       if (this.order.id) {
@@ -178,7 +180,7 @@ export default {
       let axiosOptions = getHeaders(jwt);
       axios.get(url, axiosOptions)
           .then(function (response) {
-            if (response.data.status !== 'Cancelled' && response.data.status !== 'Ready') {
+            if (response.data.status !== 'Cancelled' && response.data.status !== 'Ready' && response.data.status !== 'Paid') {
               me.order = response.data;
             } else {
               me.showError('This order is no longer active!');
@@ -206,11 +208,13 @@ export default {
       this.isLoading = false;
       const jwt = getJwt();
       let axiosOptions = getHeaders(jwt);
+      EventBus.$emit("reload-event");
       axios.post(url, this.order, axiosOptions)
           .then(function (response) {
             saveOrder(response.data);
             this.order = response.data;
             me.isLoading = false;
+
           })
           .catch(function (error) {
             console.log(error);
@@ -240,14 +244,17 @@ export default {
     } else {
       this.getItems();
     }
-
-
-
+    EventBus.$on('cart-item-event', () => {
+      if (!this.order || !this.order.id) {
+        this.getItems();
+      }
+    });
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
+
 <style scoped>
 h3 {
   margin: 40px 0 0;

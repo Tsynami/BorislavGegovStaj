@@ -12,6 +12,7 @@
       <b-nav-item to="/cart">
         <b-button pill>
           <b-icon-cart></b-icon-cart>
+          <b-badge>{{ countCardItems }}</b-badge>
         </b-button>
       </b-nav-item>
 
@@ -19,6 +20,7 @@
       <b-nav-item>
         <b-button pill id="profile-btn">
           <b-icon-person></b-icon-person>
+
         </b-button>
         <b-popover target="profile-btn" title="Profile" class="text-light" variant="dark" triggers="focus" placement="bottom">
           <Profile></Profile>

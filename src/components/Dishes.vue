@@ -60,6 +60,7 @@ import {getHeaders} from "@/utils/axios_util";
 import {getJwt} from "@/utils/session_util";
 import {hasOrder} from "@/utils/order_util";
 import BaseMixin from "@/mixins/BaseMixin";
+import {EventBus} from "@/utils/event_bus";
 
 
 export default {
@@ -101,6 +102,7 @@ export default {
         return;
       }
       addCartItem(dish);
+      EventBus.$emit("cart-item-event")
     }
   },
   watch: {
